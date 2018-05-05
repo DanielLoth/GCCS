@@ -1,95 +1,91 @@
-﻿using System.Threading.Tasks;
-using GCCS.Mvc.Security;
-using Microsoft.AspNetCore.Antiforgery;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GCCS.Mvc.Controllers
 {
     public class AuthenticationController : Controller
     {
         public const string LoginRoute = "/authentication/login";
-        public const string LogoutRoute = "/authentication/logout";
-        public const string RenewXsrfTokenRoute = "/authentication/renew-xsrf-token";
-        public const string SinglePageAppHeader = "X-RACI-Angular";
 
-        private readonly SignInManager<ApplicationUser> SignInManager;
-        private readonly UserManager<ApplicationUser> UserManager;
-        private readonly IAntiforgery Antiforgery;
+        private readonly IConfiguration configuration;
 
-        /// <summary>
-        /// The cookie options on this occasion specify HttpOnly = false.
-        /// This makes the cookie readable by Angular, which then allows it to attach
-        /// the relevant anti-forgery (anti-CSRF / anti-XSRF) token when making requests.
-        /// </summary>
-        private static readonly CookieOptions Options = new CookieOptions { HttpOnly = false };
-
-        public AuthenticationController(
-            SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager,
-            IAntiforgery antiforgery)
+        public AuthenticationController(IConfiguration config)
         {
-            SignInManager = signInManager;
-            UserManager = userManager;
-            Antiforgery = antiforgery;
-        }
-
-        [AllowAnonymous]
-        [HttpGet(LoginRoute)]
-        public async Task<IActionResult> Login(string returnUrl)
-        {
-            await SignInManager.SignOutAsync();
-
-            var user = await UserManager.FindByNameAsync(@"DESKTOP-MPE15R2\daniel");
-            await SignInManager.SignInAsync(user, false);
-
-            return RedirectToAction(nameof(RenewXsrfToken), new { returnUrl });
+            configuration = config;
         }
 
         [Authorize]
-        [ValidateAntiForgeryToken]
-        [HttpGet(LogoutRoute)]
-        public async Task<IActionResult> Logout()
+        [HttpGet("/protected")]
+        public string Protected()
         {
-            await SignInManager.SignOutAsync();
-
-            return RedirectToAction(nameof(RenewXsrfToken), new { string.Empty });
+            return "Protected";
         }
 
         [AllowAnonymous]
-        [HttpGet(RenewXsrfTokenRoute)]
-        public IActionResult RenewXsrfToken(string returnUrl)
+        [HttpPost(LoginRoute)]
+        public IActionResult CreateTokenFromBody([FromBody]LoginModel login) => CreateToken(login);
+
+        private IActionResult CreateToken(LoginModel login)
         {
-            var tokens = Antiforgery.GetAndStoreTokens(HttpContext);
+            var user = Authenticate(login);
 
-            HttpContext.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, Options);
-
-            var hasReturnUrl = !string.IsNullOrWhiteSpace(returnUrl);
-
-            if (hasReturnUrl && Url.IsLocalUrl(returnUrl))
+            if (user != null)
             {
-                if (Url.IsLocalUrl(returnUrl))
-                {
-                    return LocalRedirect(returnUrl);
-                }
-            }
-            else if (SinglePageAppHeaderPresent())
-            {
-                return Ok();
+                var tokenString = BuildToken(user);
+                return Ok(new { token = tokenString });
             }
 
-            return LocalRedirect("/");
+            return Unauthorized();
         }
 
-        private bool SinglePageAppHeaderPresent()
+        private string BuildToken(UserModel user)
         {
-            var hasAngularHeader = Request.Headers.TryGetValue(SinglePageAppHeader, out _);
 
-            return hasAngularHeader;
+            var claims = new[] {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Name),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Birthdate, user.Birthdate.ToString("yyyy-MM-dd")),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(configuration["Jwt:Issuer"],
+              configuration["Jwt:Issuer"],
+              claims,
+              expires: DateTime.UtcNow.AddYears(10),
+              signingCredentials: creds);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private UserModel Authenticate(LoginModel login)
+        {
+            return new UserModel {
+                Name = "Daniel",
+                Email = "daniel@example.com",
+                Birthdate = new DateTime(1990, 01, 01)
+            };
+        }
+
+        public class LoginModel
+        {
+            public string Username { get; set; }
+            public string Password { get; set; }
+        }
+
+        private class UserModel
+        {
+            public string Name { get; set; }
+            public string Email { get; set; }
+            public DateTime Birthdate { get; set; }
         }
     }
 }

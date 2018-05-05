@@ -1,14 +1,14 @@
-using GCCS.Mvc.Controllers;
+using System.Text;
 using GCCS.Mvc.Data;
-using GCCS.Mvc.Filters;
 using GCCS.Mvc.Security;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GCCS.Mvc
 {
@@ -37,20 +37,7 @@ namespace GCCS.Mvc
 
         private void ConfigureMvcServices(IServiceCollection services)
         {
-            services.AddSingleton<AntiforgeryCookieResultFilter>();
-
-            //services.AddAntiforgery(options =>
-            //{
-            //    options.Cookie.Name = "XSRF-TOKEN";
-            //    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-            //});
-
-            services
-                .AddMvc(options =>
-                {
-                    options.Filters.AddService<AntiforgeryCookieResultFilter>();
-                })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         private void ConfigureAuthenticationServices(IServiceCollection services)
@@ -63,17 +50,25 @@ namespace GCCS.Mvc
             services.AddScoped<IUserStore<ApplicationUser>, DefaultUserStore>();
             services.AddScoped<IRoleStore<ApplicationRole>, MyRoleStore>();
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>();
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        RequireExpirationTime = true,
+                        RequireSignedTokens = true,
+                        ValidIssuer = Configuration["Jwt:Issuer"],
+                        ValidAudience = Configuration["Jwt:Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                    };
 
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.Cookie.HttpOnly = true;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                options.Cookie.SameSite = SameSiteMode.Strict;
-
-                options.LoginPath = AuthenticationController.LoginRoute;
-                options.SlidingExpiration = true;
-            });
+                    options.RequireHttpsMetadata = true;
+                });
         }
 
         private void ConfigureDatabaseAccess(IServiceCollection services)
