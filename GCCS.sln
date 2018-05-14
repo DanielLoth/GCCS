@@ -7,7 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AC79B543-9AB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{F2622D79-07D4-4B55-8CDE-2A7144B9BAD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GCCS.Mvc", "src\GCCS.Mvc\GCCS.Mvc.csproj", "{75D44974-0E35-4ADD-939D-845424063A56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GCCS.Mvc", "src\GCCS.Mvc\GCCS.Mvc.csproj", "{75D44974-0E35-4ADD-939D-845424063A56}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GCCS.Database", "src\GCCS.Database\GCCS.Database.sqlproj", "{3838C5B5-B915-4ED3-80AE-BCC9DF43E9C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,12 +21,19 @@ Global
 		{75D44974-0E35-4ADD-939D-845424063A56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75D44974-0E35-4ADD-939D-845424063A56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75D44974-0E35-4ADD-939D-845424063A56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3838C5B5-B915-4ED3-80AE-BCC9DF43E9C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3838C5B5-B915-4ED3-80AE-BCC9DF43E9C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3838C5B5-B915-4ED3-80AE-BCC9DF43E9C6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{3838C5B5-B915-4ED3-80AE-BCC9DF43E9C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3838C5B5-B915-4ED3-80AE-BCC9DF43E9C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3838C5B5-B915-4ED3-80AE-BCC9DF43E9C6}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{75D44974-0E35-4ADD-939D-845424063A56} = {AC79B543-9AB7-4993-8058-4B8C6D279532}
+		{3838C5B5-B915-4ED3-80AE-BCC9DF43E9C6} = {AC79B543-9AB7-4993-8058-4B8C6D279532}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {01DCC95E-42DC-4017-AF33-8E79D51AC210}
