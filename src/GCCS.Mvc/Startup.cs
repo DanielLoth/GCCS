@@ -91,6 +91,7 @@ namespace GCCS.Mvc
             }
 
             app.UseHttpsRedirection();
+            app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
