@@ -97,12 +97,7 @@ namespace GCCS.Mvc
 
             app.UseAuthentication();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
-            });
+            app.UseMvcWithDefaultRoute();
 
             app.UseSpa(spa =>
             {
