@@ -7,7 +7,7 @@ var gulp = require("gulp"),
     sass = require("gulp-sass");
 
 gulp.task("sass", function () {
-    return gulp.src('wwwroot/css/site.scss')
+    return gulp.src('Frontend/scss/site.scss')
         .pipe(sass())
         .pipe(gulp.dest('wwwroot/css'))
         .pipe(cssmin())
