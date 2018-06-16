@@ -262,3 +262,4 @@ __pycache__/
 
 # Generated CSS files (compiled from SCSS)
 /src/GCCS.Mvc/wwwroot/css/*.css
+/src/GCCS.Mvc/wwwroot/css/*.css.map
