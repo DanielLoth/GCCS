@@ -29,10 +29,10 @@ namespace GCCS.Mvc
             ConfigureDatabaseAccess(services);
 
             // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
+            //services.AddSpaStaticFiles(configuration =>
+            //{
+            //    configuration.RootPath = "ClientApp/dist";
+            //});
         }
 
         private void ConfigureMvcServices(IServiceCollection services)
@@ -93,7 +93,7 @@ namespace GCCS.Mvc
             app.UseHttpsRedirection();
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            //app.UseSpaStaticFiles();
 
             app.UseAuthentication();
 
