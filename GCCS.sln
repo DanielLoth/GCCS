@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GCCS.Mvc", "src\GCCS.Mvc\GC
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GCCS.Database", "src\GCCS.Database\GCCS.Database.sqlproj", "{3838C5B5-B915-4ED3-80AE-BCC9DF43E9C6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer.QuickStart", "src\IdentityServer.QuickStart\IdentityServer.QuickStart.csproj", "{E89AAE0A-797C-47B2-965D-16021431C326}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{3838C5B5-B915-4ED3-80AE-BCC9DF43E9C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3838C5B5-B915-4ED3-80AE-BCC9DF43E9C6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3838C5B5-B915-4ED3-80AE-BCC9DF43E9C6}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{E89AAE0A-797C-47B2-965D-16021431C326}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E89AAE0A-797C-47B2-965D-16021431C326}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E89AAE0A-797C-47B2-965D-16021431C326}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E89AAE0A-797C-47B2-965D-16021431C326}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -34,6 +40,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{75D44974-0E35-4ADD-939D-845424063A56} = {AC79B543-9AB7-4993-8058-4B8C6D279532}
 		{3838C5B5-B915-4ED3-80AE-BCC9DF43E9C6} = {AC79B543-9AB7-4993-8058-4B8C6D279532}
+		{E89AAE0A-797C-47B2-965D-16021431C326} = {AC79B543-9AB7-4993-8058-4B8C6D279532}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {01DCC95E-42DC-4017-AF33-8E79D51AC210}
