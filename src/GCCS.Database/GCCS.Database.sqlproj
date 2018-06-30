@@ -67,6 +67,7 @@
     <Folder Include="NewZealand\Tables\" />
     <Folder Include="Security\" />
     <Folder Include="Tools" />
+    <Folder Include="Scripts" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Jurisdiction\Tables\Country.sql" />
@@ -87,5 +88,12 @@
   <ItemGroup>
     <None Include="SchemaCompare.scmp" />
     <None Include="Tools\DataToInsertionScript.sql" />
+    <None Include="Local.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PreDeploy Include="Scripts\PreDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\PostDeployment.sql" />
   </ItemGroup>
 </Project>
