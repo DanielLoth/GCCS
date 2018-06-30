@@ -68,6 +68,9 @@
     <Folder Include="Security\" />
     <Folder Include="Tools" />
     <Folder Include="Scripts" />
+    <Folder Include="Scripts\Locale" />
+    <Folder Include="Scripts\Locale\AU" />
+    <Folder Include="Scripts\Locale\NZ" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Jurisdiction\Tables\Country.sql" />
@@ -89,6 +92,16 @@
     <None Include="SchemaCompare.scmp" />
     <None Include="Tools\DataToInsertionScript.sql" />
     <None Include="Local.publish.xml" />
+    <None Include="Scripts\Locale\001 - Jurisdiction.Country.sql" />
+    <None Include="Scripts\Locale\002 - Jurisdiction.Subdivision.sql" />
+    <None Include="Scripts\Locale\AU\001 - Australia.SubdivisionType.sql" />
+    <None Include="Scripts\Locale\AU\002 - Australia.Subdivision.sql" />
+    <None Include="Scripts\Locale\AU\003 - Australia.State.sql" />
+    <None Include="Scripts\Locale\AU\004 - Australia.Territory.sql" />
+    <None Include="Scripts\Locale\000 - Insert locale data.sql" />
+    <None Include="Scripts\Locale\AU\000 - Insert Australia data.sql" />
+    <None Include="Scripts\Locale\NZ\000 - Insert NZ data.sql" />
+    <None Include="Scripts\Locale\NZ\001 - NZ.SubdivisionType.sql" />
   </ItemGroup>
   <ItemGroup>
     <PreDeploy Include="Scripts\PreDeployment.sql" />

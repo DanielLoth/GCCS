@@ -1,13 +1,10 @@
-#variables
 $msbuildPath = 'C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\msbuild.exe'
 $sqlPkg = 'C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\140\SqlPackage.exe'
 
-$projectPath = '.'
+$projectPath = Get-Location
 $outputPath = "$projectPath\bin\debug"
 $dacPath = "$outputPath\GCCS.Database.dacpac"
 
-$application = 'GCCS'
-$env = 'Test'
 $dbServer = '.'
 $sqlDb = 'GCCS'
 $profilePath = "$projectPath\Local.publish.xml"
@@ -112,7 +109,7 @@ try
     $date = (Get-Date).ToString("s").Replace(":","-") 
  
     $outPutResultPath = $outputPath + "\" + "DiffReport" + "_" + $date + ".xml"
-    $sqlFile = $outputPath + "\" + $env + "-" + $sqlDb + "-" + $date + "_schema.sql"
+    $sqlFile = $outputPath + "\" + $sqlDb + "-" + $date + "_schema.sql"
 
     # runSqlDiffReport $dbServer $sqlDb $dacPath $outPutResultPath $profilePath $sqPkg
     runSqlPublish $dbServer $sqlDb $sqlFile $dacPath $profilePath $permissionPath $sqlPkg -PublishDirectly

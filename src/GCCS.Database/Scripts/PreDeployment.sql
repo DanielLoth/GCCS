@@ -1,1 +1,3 @@
 ﻿-- PRE-DEPLOYMENT SCRIPTS GO HERE
+
+go
